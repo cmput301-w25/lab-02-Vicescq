@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,11 +50,22 @@ public class MainActivity extends AppCompatActivity {
         Button confirmBtn = findViewById(R.id.confirmBtn);
         EditText textInput = findViewById(R.id.textInput);
 
-
+        /*
+        setOnclickListener boiler plate code is taken from a video from Zeeshawn academy.
+        Taken by: Hanss Rivera
+        Taken on: January 16 2025
+        Refer to README.md for more in depth information about the citation
+        */
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                /*
+                The following conditions are inspiration from a stackoverflow post.
+                Taken by: Hanss Rivera
+                Taken on: January 16 2025
+                Refer to README.md for more in depth information about the citation
+                */
                 if (textInput.getVisibility() == VISIBLE){
                     textInput.setVisibility(INVISIBLE);
                     confirmBtn.setVisibility(INVISIBLE);
@@ -71,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (cityToBeDeleted != null){
                     dataList.remove(cityToBeDeleted);
+                    /*
+                    Taken from chatgpt LLM. Helped me discover notifyDataSetChanged() method
+                    Taken by: Hanss Rivera
+                    Taken on: January 16 2025
+                    Refer to README.md for more in depth information about the citation
+                    */
                     cityAdapter.notifyDataSetChanged();
                 }
             }
@@ -79,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String addedCity = textInput.getText().toString();
+                String addedCity = textInput.getText().toString(); // studytonight.com code, Taken by: Hanss Rivera, Taken on: January 16 2025, refer to README.md for more information about the citation
                 dataList.add(addedCity);
                 cityAdapter.notifyDataSetChanged();
             }
