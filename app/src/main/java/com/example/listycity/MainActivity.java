@@ -1,8 +1,16 @@
 package com.example.listycity;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     ListView cityList;
     ArrayAdapter<String> cityAdapter;
     ArrayList<String> dataList;
+    String cityToBeDeleted;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +45,52 @@ public class MainActivity extends AppCompatActivity {
         cityAdapter = new ArrayAdapter<>(this, R.layout.content, dataList);
         cityList.setAdapter(cityAdapter);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        Button addBtn = findViewById(R.id.addBtn);
+        Button delBtn = findViewById(R.id.delBtn);
+        Button confirmBtn = findViewById(R.id.confirmBtn);
+        EditText textInput = findViewById(R.id.textInput);
+
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (textInput.getVisibility() == VISIBLE){
+                    textInput.setVisibility(INVISIBLE);
+                    confirmBtn.setVisibility(INVISIBLE);
+                }
+                else{
+                    textInput.setVisibility(VISIBLE);
+                    confirmBtn.setVisibility(VISIBLE);
+                }
+            }
         });
+
+        delBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cityToBeDeleted != null){
+                    dataList.remove(cityToBeDeleted);
+                    cityAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String addedCity = textInput.getText().toString();
+                dataList.add(addedCity);
+                cityAdapter.notifyDataSetChanged();
+            }
+        });
+
+        cityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                cityToBeDeleted = dataList.get(position);
+            }
+        });
+
     }
 }
